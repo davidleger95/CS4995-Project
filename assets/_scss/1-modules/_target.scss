@@ -1,0 +1,26 @@
+.box{
+    position: relative;
+    float: left;
+    height: 340px;
+    width: 178px;
+    border: 1px solid black;
+    animation: scroll 5s linear infinite;
+    @-webkit-keyframes scroll {
+      0%    { top: 0; }
+      100%  { top: -200%; }
+    }
+    &.target{
+        background: red;
+    }
+    
+}
+
+
+.board{
+    position: relative;
+    background: pink;
+    height: 540px;
+    width: 540px;
+    overflow: hidden;
+    margin: auto;
+}

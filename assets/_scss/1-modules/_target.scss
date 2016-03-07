@@ -1,14 +1,35 @@
+.box-group{
+    position: absolute;
+    
+    &.one{
+        animation: scroll 5s linear infinite;
+        @-webkit-keyframes scroll {
+          0%   { top: 0px; }
+          100%  { top: -340px; }
+        }
+    }
+    &.two{
+        animation: scroll2 5s linear infinite;
+        @-webkit-keyframes scroll2 {
+          0%    { top: 340px; }
+          100%  { top: 0px; }
+        }
+    }
+    &.three{
+        animation: scroll3 5s linear infinite;
+        @-webkit-keyframes scroll3 {
+          0%    { top: 680px; }
+          100%  { top: 340px; }
+        }
+    }
+}
+
 .box{
-    position: relative;
     float: left;
     height: 340px;
     width: 178px;
     border: 1px solid black;
-    animation: scroll 5s linear infinite;
-    @-webkit-keyframes scroll {
-      0%    { top: 0; }
-      100%  { top: -200%; }
-    }
+    
     &.target{
         background: red;
     }
@@ -19,7 +40,7 @@
 .board{
     position: relative;
     background: pink;
-    height: 540px;
+    height: 340px;
     width: 540px;
     overflow: hidden;
     margin: auto;

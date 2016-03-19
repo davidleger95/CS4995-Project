@@ -1,6 +1,7 @@
 /* line 1, /Users/David/Documents/CS4995-Project/assets/_scss/main.scss */
 html, body {
-  background: #eee; }
+  background: #eee;
+  text-align: center; }
 
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 /**
@@ -397,56 +398,60 @@ th {
   padding: 0; }
 
 /* line 1, /Users/David/Documents/CS4995-Project/assets/_scss/1-modules/_cursor.scss */
-cursor {
+#cursor {
+  display: block;
   position: absolute;
   height: 0;
   width: 0;
   overflow: visible;
   pointer-events: none;
-  z-index: 1000; }
+  z-index: 1000;
+  color: blue;
+  font-size: 50px;
+  line-height: 50px;
+  text-align: center; }
 
 /* line 1, /Users/David/Documents/CS4995-Project/assets/_scss/1-modules/_target.scss */
 .box-group {
-  position: absolute; }
-  /* line 4, /Users/David/Documents/CS4995-Project/assets/_scss/1-modules/_target.scss */
-  .box-group.one {
-    animation: scroll 5s linear infinite; }
+  display: inline-block;
+  margin: auto; }
 
-@-webkit-keyframes scroll {
-  0% {
-    top: 0px; }
-  100% {
-    top: -340px; } }
-  /* line 11, /Users/David/Documents/CS4995-Project/assets/_scss/1-modules/_target.scss */
-  .box-group.two {
-    animation: scroll2 5s linear infinite; }
-
-@-webkit-keyframes scroll2 {
-  0% {
-    top: 340px; }
-  100% {
-    top: 0px; } }
-  /* line 18, /Users/David/Documents/CS4995-Project/assets/_scss/1-modules/_target.scss */
-  .box-group.three {
-    animation: scroll3 5s linear infinite; }
-
-@-webkit-keyframes scroll3 {
-  0% {
-    top: 680px; }
-  100% {
-    top: 340px; } }
-
-/* line 27, /Users/David/Documents/CS4995-Project/assets/_scss/1-modules/_target.scss */
+/*
+    &.one{
+        animation: scroll 5s linear infinite;
+        @-webkit-keyframes scroll {
+          0%   { top: 0px; }
+          100%  { top: -340px; }
+        }
+    }
+    &.two{
+        animation: scroll2 5s linear infinite;
+        @-webkit-keyframes scroll2 {
+          0%    { top: 340px; }
+          100%  { top: 0px; }
+        }
+    }
+    &.three{
+        animation: scroll3 5s linear infinite;
+        @-webkit-keyframes scroll3 {
+          0%    { top: 680px; }
+          100%  { top: 340px; }
+        }
+    }
+}*/
+/* line 29, /Users/David/Documents/CS4995-Project/assets/_scss/1-modules/_target.scss */
 .box {
   float: left;
-  height: 340px;
-  width: 178px;
+  display: block;
+  margin: auto;
+  height: 100px;
+  width: 100px;
   border: 1px solid black; }
-  /* line 33, /Users/David/Documents/CS4995-Project/assets/_scss/1-modules/_target.scss */
+  /* line 37, /Users/David/Documents/CS4995-Project/assets/_scss/1-modules/_target.scss */
   .box.target {
     background: red; }
 
-/* line 40, /Users/David/Documents/CS4995-Project/assets/_scss/1-modules/_target.scss */
+/* line 44, /Users/David/Documents/CS4995-Project/assets/_scss/1-modules/_target.scss */
 .board {
   position: relative;
   background: pink;

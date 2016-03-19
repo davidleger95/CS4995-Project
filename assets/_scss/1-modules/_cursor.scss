@@ -1,8 +1,16 @@
-cursor{
+#cursor{
+    display: block;
     position: absolute;
     height: 0;
     width: 0;
     overflow: visible;
     pointer-events: none;
     z-index: 1000;
+    color: blue;
+    font-size: 50px;
+    line-height: 50px;
+    text-align: center;
+    //padding-top: -15px;
+    //padding-left: 10px;
+    //transform: translateY(-5px);
 }

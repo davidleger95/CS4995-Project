@@ -1,6 +1,8 @@
 .box-group{
-    position: absolute;
-    
+    //position: absolute;
+    display: inline-block;
+    margin: auto;
+}/*
     &.one{
         animation: scroll 5s linear infinite;
         @-webkit-keyframes scroll {
@@ -22,12 +24,14 @@
           100%  { top: 340px; }
         }
     }
-}
+}*/
 
 .box{
     float: left;
-    height: 340px;
-    width: 178px;
+    display: block;
+    margin: auto;
+    height: 100px;
+    width: 100px;
     border: 1px solid black;
     
     &.target{

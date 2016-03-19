@@ -1,167 +1,238 @@
-<!--DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>CS4995 | Project</title>
-        <link rel="stylesheet" href="assets/css/main.css" />
-    </head>
-    <body>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.16/processing.min.js"></script>
-	<canvas data-processing-sources="assets/js/main.pde" height="400px" width="400px"></canvas>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="assets/js/main.js" type="text/javascript"></script>
-        
-        <!-- END JavaScript ->
-    </body>
-</html-->
 
-<html>
 <head>
-  <script src="processing.js"></script>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <style>
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -200px;
+            margin-left: -200px;
+        }
+    </style>
+    <link type="text/css" rel="stylesheet" href="/assets/css/main.css" />
+    <script src="processing.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 </head>
-<body><h1>Processing.js</h1>
-<h2>Simple processing.js via JavaScript</h2>
-<p>Clock</p>
+<body >
 
-<p><canvas id="canvas1" width="400px" height="400px"></canvas></p>
+<div id="cursor">+</div>
+<div class="centered"><canvas id="canvas1" width="400px" height="400px"></canvas></div>
+<p id="results"></p>
+    <p>Time Left: <span id="time"></span>s</p>
 <!--<script src="assets/js/main.js"></script>-->
 <script id="script1" type="text/javascript">
-
-// Simple way to attach js code to the canvas is by using a function
-function sketchProc(p) {
-  // Override draw function, by default it will be called 60 times per second
-p.size(400, 400)
-p.textAlign(200,200);
-p.textSize(40);
-p.frameRate(30);
-var blackY = [];
-var down = 7;
-var blackX = [];
-var score = 0;
-var fade = 10;
-var lose = false;
-var fadeIn = 0;
-var start = true;
-var f = p.createFont("Franklin Gothic Medium");
-var blackBool = [];
-for(var i = 0; i<4; i++){
-    blackX[i] = p.round(p.random(0,3))*100;
-    blackY[i] = (i-1)*400/3;
-    blackBool[i] = false;
-}
-p.mouseClicked = function(){
-if(start === false && lose === false){
-  for(var i = 0; i<blackX.length; i++){
-      if(p.mouseX>blackX[i]&&p.mouseX<blackX[i]+100&&p.mouseY>blackY[i]&&p.mouseY<blackY[i]+400/3&&blackBool[i] === false){
-          blackBool[i] = true;
-          score++;
-      }else if(p.mouseX<blackX[i] && p.mouseY>blackY[i]&&p.mouseY<blackY[i]+400/3 ||
-      p.mouseX>blackX[i]+100&&p.mouseY>blackY[i]&&p.mouseY<blackY[i]+400/3 ){
-          lose = true;
-      }
-  }
     
-       
-}
-  if(start === true){
-      if(p.mouseX>blackX[3]&&p.mouseX<blackX[3]+100 && p.mouseY>blackY[3]&&p.mouseY<blackY[3]+400/3){
-          start = false;
-          blackBool[3] = true;
-          down = 7;
-      }
-  }
-  if(lose === true && fadeIn>220){
-      if(p.mouseX>90 && p.mouseX<310&&p.mouseY>230&&p.mouseY<270){
-            lose = false;
-            for(var i = 0; i<4; i++){
-            blackX[i] = round(random(0,3))*100;
-            blackY[i] = (i-1)*400/3;
-            blackBool[i] = false;
-        }
-        score = 0;
-        fadeIn = 0;
-        fade = 10;
-        down = 7;
-        start = true;
-      }
-  }
-};
+    var obj = document.getElementById('cursor').style;
 
-
-
-p.draw= function() {
-console.log("yo");
-    p.textFont(f);
-    p.background(255);
-    if(start === true){
-        down = 0;
-    }
-    if(lose === false && start === false){
-        down+=0.01;
+    //document.body.style.cursor="none";
+    // Simple way to attach js code to the canvas is by using a function
+    function sketchProc(p) {
+        // Override draw function, by default it will be called 60 times per second
+        p.size(400, 400)
+        p.textAlign(p.CENTER, p.CENTER);
+        p.textSize(40);
+        p.frameRate(30);
+        var frames = 0;
+        var maxFrames = 180;
+        var blackY = [];
+        var down = 7;
+        var blackX = [];
+        var score = 0;
+        var errors = 0;
+        var fade = 10;
+        var lose = false;
+        var fadeIn = 0;
+        var start = true;
+        var f = p.createFont("Franklin Gothic Medium");
+        var blackBool = [];
+        var timeLeft = 30;
         
-    }
-    for(var i = 0; i<blackX.length; i++){
-        for(var j = 0; j<4; j++){
-            p.noFill();
-            p.strokeWeight(0.5);
-            p.stroke(125);
-            p.rect(0+i*100,0+blackY[j],100,400/3);       
-        }
-        p.noStroke();
-        if(blackBool[i]===true){
-            p.fill(125);
-        }else{
-            p.fill(0);
-        }
-        p.rect(blackX[i], blackY[i], 100, 400/3);
-        blackY[i]+=down;
-        if(blackY[i]>400&&blackBool[i] === true){
-            blackY[i]-=400*4/3-1;
-            blackX[i] = p.round(p.random(0,3))*100;
-            blackBool[i] = false;
-            
-        }else if(blackY[i]>400 && blackBool[i]===false){
+/*
+        setTimeout(function() {
             lose = true;
+        }, time*1000);*/
+        document.getElementById('time').innerHTML = timeLeft;
+        setInterval(function(){
+            if(start == false && lose != true && timeLeft > 0){
+                timeLeft--;
+                document.getElementById('time').innerHTML = timeLeft;
+            }else if(timeLeft == 0){
+                lose = true;
+                return;
+            }
+        }, 1000);
+
+
+        for (var i = 0; i < 4; i++) {
+            blackX[i] = p.round(p.random(0, 3)) * 100;
+            blackY[i] = (i - 1) * 400 / 3;
+            blackBool[i] = false;
         }
-    }
-    p.fill(255,0,0);
-    p.textSize(40);
-    p.text(score, 200,20);
-    if(start === true){
-        p.fill(255, 0, 0);
-        p.rect(blackX[3], blackY[3], 100, 400/3);
-        p.textSize(24);
-        p.fill(255);
-        p.text("Start", blackX[3]+50, blackY[3]+400/6);
-    }
-    if(lose === true){
-        down = 0;
-        p.fill(255, 0, 0,fadeIn);
-        p.rect(0,0,400,400);
-        fadeIn+=fade;
-        if(fadeIn>255){
-            fade = 0;
-            p.fill(255);
-            p.textSize(50);
-            p.text(score, 200, 150);
+        p.mousePressed = function() {
+	    //console.log("yop");
+            if (start === false && lose === false) {
+                for (var i = 0; i < blackX.length; i++) {
+                    if (p.mouseX > blackX[i] && p.mouseX < blackX[i] + 100 && p.mouseY > blackY[i] && p.mouseY < blackY[i] + 400 / 3 && blackBool[i] === false) {
+                        blackBool[i] = true;
+                        score++;
+                    } else if (p.mouseX < blackX[i] && p.mouseY > blackY[i] && p.mouseY < blackY[i] + 400 / 3 ||
+                        p.mouseX > blackX[i] + 100 && p.mouseY > blackY[i] && p.mouseY < blackY[i] + 400 / 3) {
+                        //lose = true;
+                        errors++;
+						score--;
+                        //TODO: decrease score
+                    }
+                }
+
+
+            }
+            if (start === true) {
+                if (p.mouseX > blackX[3] && p.mouseX < blackX[3] + 100 && p.mouseY > blackY[3] && p.mouseY < blackY[3] + 400 / 3) {
+                    start = false;
+                    blackBool[3] = true;
+                    down = 7;
+                }
+            }
+            /*if (lose === true && fadeIn > 220) {
+                if (p.mouseX > 90 && p.mouseX < 310 && p.mouseY > 230 && p.mouseY < 270) {
+                    lose = false;
+                    for (var i = 0; i < 4; i++) {
+                        blackX[i] = round(random(0, 3)) * 100;
+                        blackY[i] = (i - 1) * 400 / 3;
+                        blackBool[i] = false;
+                    }
+                    score = 0;
+                    fadeIn = 0;
+                    fade = 10;
+                    down = 7;
+                    start = true;
+                }
+            }*/
+        };
+
+
+
+        p.draw = function() {
+
+
+            p.textFont(f);
+            p.background(255);
+            if (start === true) {
+                down = 0;
+            }
+            if (lose === false && start === false) {
+                down += 0.01;
+
+            }
+            for (var i = 0; i < blackX.length; i++) {
+                for (var j = 0; j < 4; j++) {
+                    p.noFill();
+                    p.strokeWeight(0.5);
+                    p.stroke(125);
+                    p.rect(0 + i * 100, 0 + blackY[j], 100, 400 / 3);
+                }
+                p.noStroke();
+                if (blackBool[i] === true) {
+                    p.fill(125);
+                } else {
+                    p.fill(0);
+                }
+                p.rect(blackX[i], blackY[i], 100, 400 / 3);
+                blackY[i] += down;
+                if (blackY[i] > 400) {
+                    blackY[i] -= 400 * 4 / 3 - 1;
+                    blackX[i] = p.round(p.random(0, 3)) * 100;
+                    blackBool[i] = false;
+
+                }
+            }
+            p.fill(255, 0, 0);
             p.textSize(40);
-            p.text("Play again", 200, 250);
+            p.text(score, 200, 20);
+            if (start === true) {
+                p.fill(255, 0, 0);
+                p.rect(blackX[3], blackY[3], 100, 400 / 3);
+                p.textSize(24);
+                p.fill(255);
+                p.text("Start", blackX[3] + 50, blackY[3] + 400 / 6);
+            }
+            if (lose === true) {
+                down = 0;
+                p.fill(255, 0, 0, fadeIn);
+                p.rect(0, 0, 400, 400);
+                fadeIn += fade;
+                if (fadeIn > 255) {
+                    fade = 0;
+                    p.fill(255);
+                    p.textSize(50);
+                    //p.text(score, 200, 150);
+                    p.textSize(40);
+                    //p.text("Play again", 200, 250);
+                    document.getElementById('results').innerHTML = "Errors: " + errors + "<br> Score: " + score;
+
+                }
+            }
+        };
+
+
+
+
+    }
+
+    var canvas = document.getElementById("canvas1");
+    // attaching the sketchProc function to the canvas
+    var p = new Processing(canvas, sketchProc);
+    // p.exit(); to detach it
+
+
+
+    function getMouseCoords(e) {
+        var e = e || window.event;
+        document.getElementById('msg').innerHTML = e.clientX + ', ' +
+            e.clientY + '<br>' + e.screenX + ', ' + e.screenY;
+    }
+
+
+    // Simple follow the mouse script
+
+    var divName = 'cursor'; // div that is to follow the mouse
+    // (must be position:absolute)
+    var offX = -17; // X offset from mouse position
+    var offY = -30; // Y offset from mouse position
+
+    function mouseX(evt) {
+        if (!evt) evt = window.event;
+        if (evt.pageX) return evt.pageX;
+        else if (evt.clientX) return evt.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
+        else return 0;
+    }
+
+    function mouseY(evt) {
+        if (!evt) evt = window.event;
+        if (evt.pageY) return evt.pageY;
+        else if (evt.clientY) return evt.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
+        else return 0;
+    }
+
+    function follow(evt) {
+        if (document.getElementById) {
+            
+            obj.left = (parseInt(mouseX(evt)) + offX) + 'px';
+            obj.top = (parseInt(mouseY(evt)) + offY) + 'px';
         }
     }
-};
 
+    document.onMouseDown = function(event) {
+	//console.log("dfvdfvfvd");
+    };
+    document.onmousemove = follow;
 
-
-
-
-  
-  
-}
-
-var canvas = document.getElementById("canvas1");
-// attaching the sketchProc function to the canvas
-var p = new Processing(canvas, sketchProc);
-// p.exit(); to detach it
 </script>
 </body>
+
 </html>
+

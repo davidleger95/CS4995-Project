@@ -1,7 +1,8 @@
 /* line 1, /Users/David/Documents/CS4995-Project/assets/_scss/main.scss */
 html, body {
   background: #eee;
-  text-align: center; }
+  text-align: center;
+  cursor: none !important; }
 
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 /**

@@ -27,7 +27,7 @@
 <script id="script1" type="text/javascript">
     
     var obj = document.getElementById('cursor').style;
-
+    var cursorX = 0, cursorY = 0;
     //document.body.style.cursor="none";
     // Simple way to attach js code to the canvas is by using a function
     function sketchProc(p) {
@@ -76,11 +76,11 @@
 	    //console.log("yop");
             if (start === false && lose === false) {
                 for (var i = 0; i < blackX.length; i++) {
-                    if (p.mouseX > blackX[i] && p.mouseX < blackX[i] + 100 && p.mouseY > blackY[i] && p.mouseY < blackY[i] + 400 / 3 && blackBool[i] === false) {
+                    if (cursorX > blackX[i] && cursorX < blackX[i] + 100 && cursorY > blackY[i] && cursorY < blackY[i] + 400 / 3 && blackBool[i] === false) {
                         blackBool[i] = true;
                         score++;
-                    } else if (p.mouseX < blackX[i] && p.mouseY > blackY[i] && p.mouseY < blackY[i] + 400 / 3 ||
-                        p.mouseX > blackX[i] + 100 && p.mouseY > blackY[i] && p.mouseY < blackY[i] + 400 / 3) {
+                    } else if (cursorX < blackX[i] && cursorY > blackY[i] && cursorY < blackY[i] + 400 / 3 ||
+                        cursorX > blackX[i] + 100 && cursorY > blackY[i] && cursorY < blackY[i] + 400 / 3) {
                         //lose = true;
                         errors++;
 						score--;
@@ -91,7 +91,7 @@
 
             }
             if (start === true) {
-                if (p.mouseX > blackX[3] && p.mouseX < blackX[3] + 100 && p.mouseY > blackY[3] && p.mouseY < blackY[3] + 400 / 3) {
+                if (cursorX > blackX[3] && cursorX < blackX[3] + 100 && cursorY > blackY[3] && cursorY < blackY[3] + 400 / 3) {
                     start = false;
                     blackBool[3] = true;
                     down = 7;
@@ -203,18 +203,24 @@
     // (must be position:absolute)
     var offX = -17; // X offset from mouse position
     var offY = -30; // Y offset from mouse position
-
+    
     function mouseX(evt) {
         if (!evt) evt = window.event;
-        if (evt.pageX) return evt.pageX;
-        else if (evt.clientX) return evt.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
+        if (evt.pageX) {
+            cursorX = parseFloat(obj.left)- offX - $('.centered').position().left + 200;
+            console.log("X: ", cursorX, $('.centered').position().left);
+            return evt.pageX;
+        } else if (evt.clientX) return evt.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
         else return 0;
     }
 
     function mouseY(evt) {
         if (!evt) evt = window.event;
-        if (evt.pageY) return evt.pageY;
-        else if (evt.clientY) return evt.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
+        if (evt.pageY) {
+            cursorY = parseFloat(obj.top) - offY - $('.centered').position().top + 200;
+            console.log("Y: " + cursorY);
+            return evt.pageY
+        } else if (evt.clientY) return evt.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
         else return 0;
     }
 

@@ -18,7 +18,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 </head>
 <body >
-
+<div class="ref"></div>
 <div id="cursor">+</div>
 <div class="centered"><canvas id="canvas1" width="400px" height="400px"></canvas></div>
 <p id="results"></p>
@@ -43,6 +43,7 @@
         var blackX = [];
         var score = 0;
         var errors = 0;
+        var tolerances = 0;
         var fade = 10;
         var lose = false;
         var fadeIn = 0;
@@ -50,6 +51,8 @@
         var f = p.createFont("Franklin Gothic Medium");
         var blackBool = [];
         var timeLeft = 30;
+        var errTolX = 20,
+            errTolY = 10;
         
 /*
         setTimeout(function() {
@@ -75,10 +78,22 @@
         p.mousePressed = function() {
 	    //console.log("yop");
             if (start === false && lose === false) {
-                for (var i = 0; i < blackX.length; i++) {
-                    if (cursorX > blackX[i] && cursorX < blackX[i] + 100 && cursorY > blackY[i] && cursorY < blackY[i] + 400 / 3 && blackBool[i] === false) {
+                for (var i = blackX.length-1; i >= 0 ; i--) {
+                    if (cursorX > blackX[i] - errTolX && 
+                        cursorX < blackX[i]+ errTolX + 100 && 
+                        cursorY > blackY[i] - errTolY && 
+                        cursorY < blackY[i] + errTolY + 400 / 3 && 
+                        blackBool[i] === false) {
                         blackBool[i] = true;
                         score++;
+                        if (!(cursorX > blackX[i] && 
+                            cursorX < blackX[i] + 100 && 
+                            cursorY > blackY[i] && 
+                            cursorY < blackY[i] + 400 / 3)) {
+                            tolerances++;
+                                console.log("T: ", tolerances);
+                        }
+                        break;
                     } else if (cursorX < blackX[i] && cursorY > blackY[i] && cursorY < blackY[i] + 400 / 3 ||
                         cursorX > blackX[i] + 100 && cursorY > blackY[i] && cursorY < blackY[i] + 400 / 3) {
                         //lose = true;
@@ -124,7 +139,7 @@
             if (start === true) {
                 down = 0;
             }
-            if (lose === false && start === false) {
+            if (lose === false && start === false && timeLeft > 20) {
                 down += 0.01;
 
             }
@@ -172,7 +187,7 @@
                     //p.text(score, 200, 150);
                     p.textSize(40);
                     //p.text("Play again", 200, 250);
-                    document.getElementById('results').innerHTML = "Errors: " + errors + "<br> Score: " + score;
+                    document.getElementById('results').innerHTML = "Errors: " + errors + "<br> Tolerances: " + tolerances + "<br> Score: " + score;
 
                 }
             }
@@ -208,7 +223,7 @@
         if (!evt) evt = window.event;
         if (evt.pageX) {
             cursorX = parseFloat(obj.left)- offX - $('.centered').position().left + 200;
-            console.log("X: ", cursorX, $('.centered').position().left);
+            //console.log("X: ", cursorX, $('.centered').position().left);
             return evt.pageX;
         } else if (evt.clientX) return evt.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
         else return 0;
@@ -218,7 +233,7 @@
         if (!evt) evt = window.event;
         if (evt.pageY) {
             cursorY = parseFloat(obj.top) - offY - $('.centered').position().top + 200;
-            console.log("Y: " + cursorY);
+            //console.log("Y: " + cursorY);
             return evt.pageY
         } else if (evt.clientY) return evt.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
         else return 0;

@@ -2,6 +2,10 @@ html, body {
   background: #eee;
   text-align: center;
   cursor: none !important; }
+  html .ref, body .ref {
+    height: 10px;
+    width: 10px;
+    background: red; }
 
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 /**
@@ -369,7 +373,8 @@ th {
   color: blue;
   font-size: 50px;
   line-height: 50px;
-  text-align: center; }
+  text-align: center;
+  font-weight: 100; }
 
 .box-group {
   display: inline-block;

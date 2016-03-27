@@ -13,14 +13,15 @@
             margin-left: -200px;
         }
     </style>
-    <link type="text/css" rel="stylesheet" href="assets/css/main.css" />
+    <link type="text/css" rel="stylesheet" href="../assets/css/main.css" />
     <script src="../processing.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 </head>
 <body >
 
 <div id="cursor">+</div>
-<div class="centered"><canvas id="canvas1" width="400px" height="400px"></canvas></div>
+<h1>David</h1>
+    <div class="centered"><canvas id="canvas1" width="400px" height="400px"></canvas></div>
 <p id="results"></p>
     <p>Time Left: <span id="time"></span>s</p>
 <!--<script src="assets/js/main.js"></script>-->
@@ -152,7 +153,7 @@
             }
             p.fill(255, 0, 0);
             p.textSize(40);
-            p.text(score, 200, 20);
+            //p.text(score, 200, 20);
             if (start === true) {
                 p.fill(255, 0, 0);
                 p.rect(blackX[3], blackY[3], 100, 400 / 3);
@@ -172,15 +173,11 @@
                     //p.text(score, 200, 150);
                     p.textSize(40);
                     //p.text("Play again", 200, 250);
-                    document.getElementById('results').innerHTML = "Errors: " + errors + "<br> Score: " + score;
+                    document.getElementById('results').innerHTML = "Score: " + score + "<br>Errors: " + errors + "<br> Tolerances: 0";
 
                 }
             }
         };
-
-
-
-
     }
 
     var canvas = document.getElementById("canvas1");

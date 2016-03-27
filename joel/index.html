@@ -18,8 +18,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 </head>
 <body >
-<div class="ref"></div>
 <div id="cursor">+</div>
+    <h1>Joel</h1>
 <div class="centered"><canvas id="canvas1" width="400px" height="400px"></canvas></div>
 <p id="results"></p>
     <p>Time Left: <span id="time"></span>s</p>
@@ -112,21 +112,6 @@
                     down = 7;
                 }
             }
-            /*if (lose === true && fadeIn > 220) {
-                if (p.mouseX > 90 && p.mouseX < 310 && p.mouseY > 230 && p.mouseY < 270) {
-                    lose = false;
-                    for (var i = 0; i < 4; i++) {
-                        blackX[i] = round(random(0, 3)) * 100;
-                        blackY[i] = (i - 1) * 400 / 3;
-                        blackBool[i] = false;
-                    }
-                    score = 0;
-                    fadeIn = 0;
-                    fade = 10;
-                    down = 7;
-                    start = true;
-                }
-            }*/
         };
 
 
@@ -167,7 +152,7 @@
             }
             p.fill(255, 0, 0);
             p.textSize(40);
-            p.text(score, 200, 20);
+            //p.text(score, 200, 20);
             if (start === true) {
                 p.fill(255, 0, 0);
                 p.rect(blackX[3], blackY[3], 100, 400 / 3);

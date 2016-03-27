@@ -10,7 +10,7 @@
             top: 50%;
             left: 50%;
             margin-top: -200px;
-            margin-left: -200px;
+            margin-left: -500px;
         }
     </style>
     <link type="text/css" rel="stylesheet" href="../assets/css/main.css" />
@@ -18,10 +18,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 </head>
 <body >
-<div class="ref"></div>
 <div id="cursor">+</div>
-<h1>Practice</h1>
-    <div class="centered"><canvas id="canvas1" width="400px" height="400px"></canvas></div>
+<h1>Scott</h1>
+<div class="centered"><canvas id="canvas1" width="400px" height="400px"></canvas></div>
 <p id="results"></p>
     <p>Time Left: <span id="time"></span>s</p>
 <!--<script src="assets/js/main.js"></script>-->
@@ -33,7 +32,7 @@
     // Simple way to attach js code to the canvas is by using a function
     function sketchProc(p) {
         // Override draw function, by default it will be called 60 times per second
-        p.size(400, 400)
+        p.size(1000, 400)
         p.textAlign(p.CENTER, p.CENTER);
         p.textSize(40);
         p.frameRate(30);
@@ -44,6 +43,7 @@
         var blackX = [];
         var score = 0;
         var errors = 0;
+        var tolerances = 0;
         var fade = 10;
         var lose = false;
         var fadeIn = 0;
@@ -51,6 +51,8 @@
         var f = p.createFont("Franklin Gothic Medium");
         var blackBool = [];
         var timeLeft = 30;
+        var errTolX = 20,
+            errTolY = 10;
         
 /*
         setTimeout(function() {
@@ -69,23 +71,31 @@
 
 
         for (var i = 0; i < 4; i++) {
-            blackX[i] = p.round(p.random(0, 3)) * 100;
+            blackX[i] = 300+ p.round(p.random(0, 3)) * 100;
             blackY[i] = (i - 1) * 400 / 3;
             blackBool[i] = false;
         }
         p.mousePressed = function() {
-	    //console.log("yop");
             if (start === false && lose === false) {
-                for (var i = 0; i < blackX.length; i++) {
-                    if (cursorX > blackX[i] && cursorX < blackX[i] + 100 && cursorY > blackY[i] && cursorY < blackY[i] + 400 / 3 && blackBool[i] === false) {
+                for (var i = blackX.length-1; i >= 0 ; i--) {
+                    if (cursorX > blackX[i] - errTolX && 
+                        cursorX < blackX[i] + errTolX + 100 && 
+                        cursorY > blackY[i] - errTolY && 
+                        cursorY < blackY[i] + errTolY + 400 / 3 && 
+                        blackBool[i] === false) {
                         blackBool[i] = true;
                         score++;
+                        if (!(cursorX > blackX[i] && 
+                            cursorX < blackX[i] + 100 && 
+                            cursorY > blackY[i] && 
+                            cursorY < blackY[i] + 400 / 3)) {
+                            tolerances++;
+                        }
+                        break;
                     } else if (cursorX < blackX[i] && cursorY > blackY[i] && cursorY < blackY[i] + 400 / 3 ||
                         cursorX > blackX[i] + 100 && cursorY > blackY[i] && cursorY < blackY[i] + 400 / 3) {
-                        //lose = true;
                         errors++;
 						score--;
-                        //TODO: decrease score
                     }
                 }
 
@@ -98,21 +108,6 @@
                     down = 7;
                 }
             }
-            /*if (lose === true && fadeIn > 220) {
-                if (p.mouseX > 90 && p.mouseX < 310 && p.mouseY > 230 && p.mouseY < 270) {
-                    lose = false;
-                    for (var i = 0; i < 4; i++) {
-                        blackX[i] = round(random(0, 3)) * 100;
-                        blackY[i] = (i - 1) * 400 / 3;
-                        blackBool[i] = false;
-                    }
-                    score = 0;
-                    fadeIn = 0;
-                    fade = 10;
-                    down = 7;
-                    start = true;
-                }
-            }*/
         };
 
 
@@ -125,7 +120,7 @@
             if (start === true) {
                 down = 0;
             }
-            if (lose === false && start === false) {
+            if (lose === false && start === false && timeLeft > 20) {
                 down += 0.01;
 
             }
@@ -134,7 +129,7 @@
                     p.noFill();
                     p.strokeWeight(0.5);
                     p.stroke(125);
-                    p.rect(0 + i * 100, 0 + blackY[j], 100, 400 / 3);
+                    p.rect(300 + i * 100, 0 + blackY[j], 100, 400 / 3);
                 }
                 p.noStroke();
                 if (blackBool[i] === true) {
@@ -146,7 +141,7 @@
                 blackY[i] += down;
                 if (blackY[i] > 400) {
                     blackY[i] -= 400 * 4 / 3 - 1;
-                    blackX[i] = p.round(p.random(0, 3)) * 100;
+                    blackX[i] = 300 + p.round(p.random(0, 3)) * 100;
                     blackBool[i] = false;
 
                 }
@@ -164,7 +159,7 @@
             if (lose === true) {
                 down = 0;
                 p.fill(255, 0, 0, fadeIn);
-                p.rect(0, 0, 400, 400);
+                p.rect(300, 0, 400, 400);
                 fadeIn += fade;
                 if (fadeIn > 255) {
                     fade = 0;
@@ -173,11 +168,12 @@
                     //p.text(score, 200, 150);
                     p.textSize(40);
                     //p.text("Play again", 200, 250);
-                    document.getElementById('results').innerHTML = "Score: " + score + "<br>Errors: " + errors + "<br> Tolerances: 0";
+                    document.getElementById('results').innerHTML = "Score: " + score + "<br>Errors: " + errors + "<br> Tolerances: " + tolerances;
 
                 }
             }
         };
+
     }
 
     var canvas = document.getElementById("canvas1");
@@ -185,54 +181,43 @@
     var p = new Processing(canvas, sketchProc);
     // p.exit(); to detach it
 
-
-
     function getMouseCoords(e) {
         var e = e || window.event;
         document.getElementById('msg').innerHTML = e.clientX + ', ' +
             e.clientY + '<br>' + e.screenX + ', ' + e.screenY;
     }
 
-
-    // Simple follow the mouse script
+    // Mouse gain adjustments.
 
     var divName = 'cursor'; // div that is to follow the mouse
     // (must be position:absolute)
     var offX = -17; // X offset from mouse position
     var offY = -30; // Y offset from mouse position
-    
-    function mouseX(evt) {
-        if (!evt) evt = window.event;
-        if (evt.pageX) {
-            cursorX = parseFloat(obj.left)- offX - $('.centered').position().left + 200;
-            console.log("X: ", cursorX, $('.centered').position().left);
-            return evt.pageX;
-        } else if (evt.clientX) return evt.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
-        else return 0;
+
+var last_position = {};
+$(document).on('mousemove', function (event) {
+
+    //check to make sure there is data to compare against
+    if (typeof(last_position.x) != 'undefined') {
+
+        //get the change from last position to this position
+        var deltaX = last_position.x - event.clientX*0.75,
+            deltaY = last_position.y - event.clientY*0.75;
+
+        var vw = $(window).width();
+        obj.left = event.pageX + deltaX*2 + offX - (vw/4) + 'px';
+        obj.top = event.pageY + offY + 'px';
+        cursorX = parseFloat(obj.left) - $('.centered').position().left + 500;
+        cursorY = parseFloat(obj.top) - $('.centered').position().top + 200;
+        console.log(deltaX, deltaY);
     }
 
-    function mouseY(evt) {
-        if (!evt) evt = window.event;
-        if (evt.pageY) {
-            cursorY = parseFloat(obj.top) - offY - $('.centered').position().top + 200;
-            console.log("Y: " + cursorY);
-            return evt.pageY
-        } else if (evt.clientY) return evt.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
-        else return 0;
-    }
-
-    function follow(evt) {
-        if (document.getElementById) {
-            
-            obj.left = (parseInt(mouseX(evt)) + offX) + 'px';
-            obj.top = (parseInt(mouseY(evt)) + offY) + 'px';
-        }
-    }
-
-    document.onMouseDown = function(event) {
-	//console.log("dfvdfvfvd");
+    //set the new last position to the current for next time
+    last_position = {
+        x : event.clientX,
+        y : event.clientY
     };
-    document.onmousemove = follow;
+});
 
 </script>
 </body>

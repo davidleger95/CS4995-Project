@@ -67,22 +67,22 @@
 
 
         for (var i = 0; i < 4; i++) {
-            blackX[i] = 300+ p.round(p.random(0, 3)) * 100;
+            blackX[i] = 300 + p.round(p.random(0, 3)) * 100;
             blackY[i] = (i - 1) * 400 / 3;
             blackBool[i] = false;
         }
         p.mousePressed = function() {
             if (start === false && lose === false) {
                 for (var i = blackX.length-1; i >= 0 ; i--) {
-                    if (cursorX > blackX[i] - errTolX && 
-                        cursorX < blackX[i] + errTolX + 100 && 
+                    if (cursorX > blackX[i] - 15 && 
+                        cursorX < blackX[i] + errTolX + 85 && 
                         cursorY > blackY[i] - errTolY && 
                         cursorY < blackY[i] + errTolY + 400 / 3 && 
                         blackBool[i] === false) {
                         blackBool[i] = true;
                         score++;
-                        if (!(cursorX > blackX[i] && 
-                            cursorX < blackX[i] + 100 && 
+                        if (!(cursorX > blackX[i] - 15 && 
+                            cursorX < blackX[i] + 85 && 
                             cursorY > blackY[i] && 
                             cursorY < blackY[i] + 400 / 3)) {
                             tolerances++;
@@ -197,11 +197,11 @@ $(document).on('mousemove', function (event) {
     if (typeof(last_position.x) != 'undefined') {
 
         //get the change from last position to this position
-        var deltaX = last_position.x - event.clientX*0.75,
+        var deltaX = event.clientX*0.5,
             deltaY = last_position.y - event.clientY*0.75;
 
         var vw = $(window).width();
-        obj.left = event.pageX + deltaX*2 + offX - (vw/4) + 'px';
+        obj.left = event.pageX + deltaX + offX - (vw*0.5/2) + 'px';
         obj.top = event.pageY + offY + 'px';
         cursorX = parseFloat(obj.left) - $('.centered').position().left + 500;
         cursorY = parseFloat(obj.top) - $('.centered').position().top + 200;

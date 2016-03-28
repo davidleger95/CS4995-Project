@@ -78,15 +78,15 @@
         p.mousePressed = function() {
             if (start === false && lose === false) {
                 for (var i = blackX.length-1; i >= 0 ; i--) {
-                    if (cursorX > blackX[i] - errTolX && 
-                        cursorX < blackX[i] + errTolX + 100 && 
+                    if (cursorX > blackX[i] - errTolX - 15 && 
+                        cursorX < blackX[i] + errTolX + 85 && 
                         cursorY > blackY[i] - errTolY && 
                         cursorY < blackY[i] + errTolY + 400 / 3 && 
                         blackBool[i] === false) {
                         blackBool[i] = true;
                         score++;
-                        if (!(cursorX > blackX[i] && 
-                            cursorX < blackX[i] + 100 && 
+                        if (!(cursorX > blackX[i] - 15 && 
+                            cursorX < blackX[i] + 85 && 
                             cursorY > blackY[i] && 
                             cursorY < blackY[i] + 400 / 3)) {
                             tolerances++;

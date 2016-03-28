@@ -1,8 +1,7 @@
 /* line 1, /Users/David/Documents/CS4995-Project/assets/_scss/main.scss */
 html, body {
   background: #fff;
-  text-align: center;
-  cursor: none !important; }
+  text-align: center; }
   /* line 6, /Users/David/Documents/CS4995-Project/assets/_scss/main.scss */
   html .ref, body .ref {
     z-index: 0;

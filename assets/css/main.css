@@ -1,6 +1,7 @@
 html, body {
   background: #fff;
-  text-align: center; }
+  text-align: center;
+  cursor: none !important; }
   html .ref, body .ref {
     z-index: 0;
     display: block;
